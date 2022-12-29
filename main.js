@@ -256,7 +256,7 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 
 	let 通常輸入td = text2html('<td></td>');
 	按鈕trs[1].append(通常輸入td);
-	let 通常輸入 = text2html('<input type="text">');
+	let 通常輸入 = text2html('<input type="color">');
 	通常輸入td.append(通常輸入);
 	Object.defineProperty(顏色.通常, '輸入', {
 		set: v => 通常輸入.value = v,
@@ -266,7 +266,7 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 
 	let 地圖輸入td = text2html('<td></td>');
 	按鈕trs[2].append(地圖輸入td);
-	let 地圖輸入 = text2html('<input type="text">');
+	let 地圖輸入 = text2html('<input type="color">');
 	地圖輸入td.append(地圖輸入);
 	Object.defineProperty(顏色.地圖, '輸入', {
 		set: v => 地圖輸入.value = v,
