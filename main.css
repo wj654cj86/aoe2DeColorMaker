@@ -1,0 +1,37 @@
+.bt button {
+	width    : 100px;
+	height   : 40px;
+	font-size: 20px;
+}
+
+.bt input[type=text] {
+	width      : 100px;
+	height     : 40px;
+	font-size  : 20px;
+	font-family: Consolas;
+}
+
+.bt td {
+	font-family: Consolas, 微軟正黑體;
+	font-size  : 20px;
+}
+
+#filename {
+	font-family: Consolas, 微軟正黑體;
+	width      : 300px;
+}
+
+.show {
+	display: none;
+}
+
+.color td {
+	width      : 40px;
+	height     : 40px;
+	line-height: .9;
+}
+
+.color td span {
+	background-color: #fff;
+	font-family     : Consolas;
+}
