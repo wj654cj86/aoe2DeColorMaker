@@ -159,8 +159,8 @@ let 下載 = text2html(`<button>下載檔案</button>`);
 let ui = await loadfile('json', `orgfile/${檔案路徑[1]}UIColors.json`);
 let sprite = await loadfile('json', `orgfile/${檔案路徑[2]}spritecolors.json`);
 let org_sprite = await loadfile('text', `orgfile/${檔案路徑[2]}spritecolors.json`);
-let bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.split('\r\n'));
-let org_bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`);
+let bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.replace(/\r\n/g, '\n').split('\n'));
+let org_bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.replace(/\r\n/g, '\n').replace(/\n/g, '\r\n'));
 
 let 圖片p = [];
 let 圖片 = [];
