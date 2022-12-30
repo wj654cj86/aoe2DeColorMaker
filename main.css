@@ -1,25 +1,28 @@
+body {
+	font-family: Consolas, 微軟正黑體;
+}
+
 .bt button {
-	width    : 100px;
-	height   : 40px;
-	font-size: 20px;
+	font-family: Consolas, 微軟正黑體;
+	width      : 100px;
+	height     : 40px;
+	font-size  : 20px;
 }
 
 .bt input[type=text],
 .bt input[type=color] {
+	font-family: Consolas, 微軟正黑體;
 	width      : 100px;
 	height     : 40px;
 	font-size  : 20px;
-	font-family: Consolas;
 }
 
 .bt td {
-	font-family: Consolas, 微軟正黑體;
-	font-size  : 20px;
+	font-size: 20px;
 }
 
 #filename {
-	font-family: Consolas, 微軟正黑體;
-	width      : 300px;
+	width: 300px;
 }
 
 .show {
@@ -34,5 +37,4 @@
 
 .color td span {
 	background-color: #fff;
-	font-family     : Consolas;
 }

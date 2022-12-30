@@ -186,59 +186,56 @@ function 顯示顏色數值(rgb) {
 			return f(rgb[0].toFixed(0), rgb[1].toFixed(0), rgb[2].toFixed(0));
 	}
 }
+let 製作顏色 = {
+	通常: 顏色 => {
+		let 輸出pal = 'JASC-PAL\r\n0100\r\n256\r\n';
+		for (let k = 0; k < 8; k++) {
+			for (let j = 0; j < 16; j++) {
+				let a = 混和(顏色.通常.rgb, 混色[k].rgb, j / 15).map(c => Math.round(c));
+				輸出pal += a.join(' ') + '\r\n';
+				let td = 顏色.pal表[k][j];
+				td.style.backgroundColor = `rgb(${a.join(',')})`;
+				td.innerHTML = 顯示顏色數值(a);
+			}
+		}
+		for (let j = 0; j < 128; j++) {
+			輸出pal += '0 0 0\r\n';
+		}
+		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱}.pal`, 輸出pal);
 
-function 製作通常顏色(顏色) {
-	let 輸出pal = 'JASC-PAL\r\n0100\r\n256\r\n';
-	for (let k = 0; k < 8; k++) {
-		for (let j = 0; j < 16; j++) {
-			let a = 混和(顏色.通常.rgb, 混色[k].rgb, j / 15).map(c => Math.round(c));
-			輸出pal += a.join(' ') + '\r\n';
-			let td = 顏色.pal表[k][j];
+		for (let key in sprite) {
+			(rgba => {
+				rgba.r = 顏色.通常.rgb[0] / 255;
+				rgba.g = 顏色.通常.rgb[1] / 255;
+				rgba.b = 顏色.通常.rgb[2] / 255;
+			})(sprite[key][顏色.玩家名稱].FloatRGBA);
+		}
+
+		if (顏色.按鈕 !== false) {
+			for (let [key, 檔案s] of Object.entries(圖片集)) {
+				for (let [n, 檔案] of Object.entries(檔案s)) {
+					圖片換色(圖片[key][n], 顏色.圖[key][n], 顏色);
+					let c = 顏色.圖[key][n];
+					zip.file(`${圖片路徑[key]}${檔案.名稱(顏色.名稱png)}.png`, c.toDataURL().replace(/^data:image\/png;base64,/, ''), { base64: true });
+				}
+			}
+		}
+	},
+	地圖: 顏色 => {
+		for (let key in ui.ColorTables[顏色.名稱2]) {
+			let a = 混和(顏色.地圖.rgb, 混色[混色2[key].x].rgb, 混色2[key].y / 15).map(c => Math.round(c));
+			let rgba = ui.ColorTables[顏色.名稱2][key];
+			rgba[0] = a[0];
+			rgba[1] = a[1];
+			rgba[2] = a[2];
+			let td = 顏色.pal表[8][key];
 			td.style.backgroundColor = `rgb(${a.join(',')})`;
 			td.innerHTML = 顯示顏色數值(a);
 		}
 	}
-	for (let j = 0; j < 128; j++) {
-		輸出pal += '0 0 0\r\n';
-	}
-	zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱}.pal`, 輸出pal);
-
-	for (let key in sprite) {
-		(rgba => {
-			rgba.r = 顏色.通常.rgb[0] / 255;
-			rgba.g = 顏色.通常.rgb[1] / 255;
-			rgba.b = 顏色.通常.rgb[2] / 255;
-		})(sprite[key][顏色.玩家名稱].FloatRGBA);
-	}
-
-	if (顏色.按鈕 !== false) {
-		for (let [key, 檔案s] of Object.entries(圖片集)) {
-			for (let [n, 檔案] of Object.entries(檔案s)) {
-				圖片換色(圖片[key][n], 顏色.圖[key][n], 顏色);
-				let c = 顏色.圖[key][n];
-				zip.file(`${圖片路徑[key]}${檔案.名稱(顏色.名稱png)}.png`, c.toDataURL().replace(/^data:image\/png;base64,/, ''), { base64: true });
-			}
-		}
-	}
-}
-function 製作地圖顏色(顏色) {
-	for (let key in ui.ColorTables[顏色.名稱2]) {
-		let a = 混和(顏色.地圖.rgb, 混色[混色2[key].x].rgb, 混色2[key].y / 15).map(c => Math.round(c));
-		let rgba = ui.ColorTables[顏色.名稱2][key];
-		rgba[0] = a[0];
-		rgba[1] = a[1];
-		rgba[2] = a[2];
-		let td = 顏色.pal表[8][key];
-		td.style.backgroundColor = `rgb(${a.join(',')})`;
-		td.innerHTML = 顯示顏色數值(a);
-	}
-}
+};
 
 for (let [i, 顏色] of Object.entries(顏色s)) {
-	顏色.通常.rgb = cc.hsl.rgb(...顏色.通常.hsl);
-	顏色.通常.hex = cc.rgb.hex(...顏色.通常.rgb);
-	顏色.地圖.rgb = cc.hsl.rgb(...顏色.地圖.hsl);
-	顏色.地圖.hex = cc.rgb.hex(...顏色.地圖.rgb);
 	let tablebig = text2html(`<table class="show"><tr><td></td><td></td><td></td></tr></table>`);
 	document.body.append(tablebig);
 	let 按鈕td = text2html('<td></td>');
@@ -254,25 +251,21 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	if (顏色.玩家名稱2 == "Ｐ１") 按鈕.click();
 	按鈕td.append(按鈕);
 
-	let 通常輸入td = text2html('<td></td>');
-	按鈕trs[1].append(通常輸入td);
-	let 通常輸入 = text2html('<input type="color">');
-	通常輸入td.append(通常輸入);
-	Object.defineProperty(顏色.通常, '輸入', {
-		set: v => 通常輸入.value = v,
-		get: () => 通常輸入.value
-	});
-	顏色.通常.輸入 = 顏色.通常.hex;
-
-	let 地圖輸入td = text2html('<td></td>');
-	按鈕trs[2].append(地圖輸入td);
-	let 地圖輸入 = text2html('<input type="color">');
-	地圖輸入td.append(地圖輸入);
-	Object.defineProperty(顏色.地圖, '輸入', {
-		set: v => 地圖輸入.value = v,
-		get: () => 地圖輸入.value
-	});
-	顏色.地圖.輸入 = 顏色.地圖.hex;
+	let 顏色與輸入配置 = (類型, 位置) => {
+		類型.rgb = cc.hsl.rgb(...類型.hsl);
+		類型.hex = cc.rgb.hex(...類型.rgb);
+		let 輸入td = text2html('<td></td>');
+		按鈕trs[位置].append(輸入td);
+		let 輸入 = text2html('<input type="color">');
+		輸入td.append(輸入);
+		Object.defineProperty(類型, '輸入', {
+			set: v => 輸入.value = v,
+			get: () => 輸入.value
+		});
+		類型.輸入 = 類型.hex;
+	};
+	顏色與輸入配置(顏色.通常, 1);
+	顏色與輸入配置(顏色.地圖, 2);
 
 	let tdbigarr = tablebig.querySelectorAll('td');
 
@@ -310,8 +303,8 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 			if (檔案.換格 === true) 格數++;
 		}
 	}
-	製作通常顏色(顏色);
-	製作地圖顏色(顏色);
+	製作顏色.通常(顏色);
+	製作顏色.地圖(顏色);
 }
 
 zip.file(`${檔案路徑[1]}UIColors.json`, formatJson(ui));
@@ -319,26 +312,19 @@ zip.file(`${檔案路徑[2]}spritecolors.json`, formatJson2(sprite));
 zip.file(`${檔案路徑[2]}org_spritecolors.json`, org_sprite);
 
 let content = await zip.generateAsync({ type: "base64" });
-下載.onclick = function () {
-	startDownload('data:application/zip;base64,' + content, 檔名 + '.zip');
-};
-
-let 確認hex = hex => hex.search(/^\#[0-9A-Fa-f]{3}$/) == 0 || hex.search(/^\#[0-9A-Fa-f]{6}$/) == 0;
-
+下載.onclick = () => startDownload('data:application/zip;base64,' + content, 檔名.value + '.zip');
 重新.onclick = async () => {
 	for (let [i, 顏色] of Object.entries(顏色s)) {
-		if (顏色.通常.hex != 顏色.通常.輸入 && 確認hex(顏色.通常.輸入)) {
-			顏色.通常.hex = 顏色.通常.輸入;
-			顏色.通常.rgb = cc.hex.rgb(顏色.通常.hex);
-			顏色.通常.hsl = cc.rgb.hsl(...顏色.通常.rgb);
-			製作通常顏色(顏色);
-		}
-		if (顏色.地圖.hex != 顏色.地圖.輸入 && 確認hex(顏色.地圖.輸入)) {
-			顏色.地圖.hex = 顏色.地圖.輸入;
-			顏色.地圖.rgb = cc.hex.rgb(顏色.地圖.hex);
-			顏色.地圖.hsl = cc.rgb.hsl(...顏色.地圖.rgb);
-			製作地圖顏色(顏色);
-		}
+		let 判斷與製作 = 類型 => {
+			if (顏色[類型].hex != 顏色[類型].輸入) {
+				顏色[類型].hex = 顏色[類型].輸入;
+				顏色[類型].rgb = cc.hex.rgb(顏色[類型].hex);
+				顏色[類型].hsl = cc.rgb.hsl(...顏色[類型].rgb);
+				製作顏色[類型](顏色);
+			}
+		};
+		判斷與製作('通常');
+		判斷與製作('地圖');
 	}
 	content = await zip.generateAsync({ type: "base64" });
 };
