@@ -1,15 +1,15 @@
 import cc from "./colorconvert.js";
 let 顏色s = [
-	{ 中文: "藍色", 玩家名稱: "Player 1", 玩家名稱2: "Ｐ１", 名稱: "blue", 名稱2: "Blue", 名稱png: "blue", 通常: { hsl: [240, 1, 0.55] }, 地圖: { hsl: [240, 1, 0.5] } },
-	{ 中文: "紅色", 玩家名稱: "Player 2", 玩家名稱2: "Ｐ２", 名稱: "red", 名稱2: "Red", 名稱png: "red", 通常: { hsl: [0, 1, 0.5] }, 地圖: { hsl: [0, 1, 0.5] } },
-	{ 中文: "綠色", 玩家名稱: "Player 3", 玩家名稱2: "Ｐ３", 名稱: "green", 名稱2: "Green", 名稱png: "green", 通常: { hsl: [120, 1, 0.4] }, 地圖: { hsl: [120, 1, 0.5] } },
+	{ 中文: "藍色", 玩家名稱: "Player 1", 玩家名稱2: "Ｐ１", 名稱: "blue", 名稱2: "Blue", 名稱png: "blue", 範圍: 24, 通常: { hsl: [240, 1, 0.55] }, 地圖: { hsl: [240, 1, 0.5] } },
+	{ 中文: "紅色", 玩家名稱: "Player 2", 玩家名稱2: "Ｐ２", 名稱: "red", 名稱2: "Red", 名稱png: "red", 範圍: 40, 通常: { hsl: [0, 1, 0.5] }, 地圖: { hsl: [0, 1, 0.5] } },
+	{ 中文: "綠色", 玩家名稱: "Player 3", 玩家名稱2: "Ｐ３", 名稱: "green", 名稱2: "Green", 名稱png: "green", 範圍: 245, 通常: { hsl: [120, 1, 0.4] }, 地圖: { hsl: [120, 1, 0.5] } },
 
-	{ 中文: "黃色", 玩家名稱: "Player 4", 玩家名稱2: "Ｐ４", 名稱: "yellow", 名稱2: "Yellow", 名稱png: "yellow", 通常: { hsl: [60, 1, 0.4] }, 地圖: { hsl: [60, 1, 0.5] } },
-	{ 中文: "青色", 玩家名稱: "Player 5", 玩家名稱2: "Ｐ５", 名稱: "teal", 名稱2: "Aqua", 名稱png: "cyan", 通常: { hsl: [180, 1, 0.4] }, 地圖: { hsl: [180, 1, 0.5] } },
-	{ 中文: "紫色", 玩家名稱: "Player 6", 玩家名稱2: "Ｐ６", 名稱: "purple", 名稱2: "Purple", 名稱png: "purple", 通常: { hsl: [330, 1, 0.75] }, 地圖: { hsl: [330, 1, 0.75] } },
+	{ 中文: "黃色", 玩家名稱: "Player 4", 玩家名稱2: "Ｐ４", 名稱: "yellow", 名稱2: "Yellow", 名稱png: "yellow", 範圍: 247, 通常: { hsl: [60, 1, 0.4] }, 地圖: { hsl: [60, 1, 0.5] } },
+	{ 中文: "青色", 玩家名稱: "Player 5", 玩家名稱2: "Ｐ５", 名稱: "teal", 名稱2: "Aqua", 名稱png: "cyan", 範圍: 255, 通常: { hsl: [180, 1, 0.4] }, 地圖: { hsl: [180, 1, 0.5] } },
+	{ 中文: "紫色", 玩家名稱: "Player 6", 玩家名稱2: "Ｐ６", 名稱: "purple", 名稱2: "Purple", 名稱png: "purple", 範圍: 256, 通常: { hsl: [330, 1, 0.75] }, 地圖: { hsl: [330, 1, 0.75] } },
 
-	{ 中文: "灰色", 玩家名稱: "Player 7", 玩家名稱2: "Ｐ７", 名稱: "grey", 名稱2: "Grey", 名稱png: "grey", 通常: { hsl: [240, 0.8, 0.8] }, 地圖: { hsl: [240, 0.4, 0.15] } },
-	{ 中文: "橘色", 玩家名稱: "Player 8", 玩家名稱2: "Ｐ８", 名稱: "orange", 名稱2: "Orange", 名稱png: "orange", 通常: { hsl: [30, 1, 0.55] }, 地圖: { hsl: [20, 1, 0.5] } },
+	{ 中文: "灰色", 玩家名稱: "Player 7", 玩家名稱2: "Ｐ７", 名稱: "grey", 名稱2: "Grey", 名稱png: "grey", 範圍: 17, 通常: { hsl: [240, 0.4, 0.7] }, 地圖: { hsl: [240, 0.2, 0.4] } },
+	{ 中文: "橘色", 玩家名稱: "Player 8", 玩家名稱2: "Ｐ８", 名稱: "orange", 名稱2: "Orange", 名稱png: "orange", 範圍: 89, 通常: { hsl: [30, 1, 0.55] }, 地圖: { hsl: [20, 1, 0.5] } },
 
 	{ 中文: "白色", 玩家名稱: "Gaia", 玩家名稱2: "蓋亞", 名稱: "white", 名稱2: "White", 按鈕: false, 通常: { hsl: [240, 1, 0.95] }, 地圖: { hsl: [240, 1, 0.95] } }
 ];
@@ -158,7 +158,9 @@ let 下載 = text2html(`<button>下載檔案</button>`);
 
 let ui = await loadfile('json', `orgfile/${檔案路徑[1]}UIColors.json`);
 let sprite = await loadfile('json', `orgfile/${檔案路徑[2]}spritecolors.json`);
-let org_sprite = await loadfile('text', `orgfile/${檔案路徑[2]}org_spritecolors.json`);
+let org_sprite = await loadfile('text', `orgfile/${檔案路徑[2]}spritecolors.json`);
+let bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.split('\r\n'));
+let org_bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`);
 
 let 圖片p = [];
 let 圖片 = [];
@@ -202,7 +204,7 @@ let 製作顏色 = {
 			輸出pal += '0 0 0\r\n';
 		}
 		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱}.pal`, 輸出pal);
-
+		bina[顏色.範圍 - 1] = 顏色.通常.rgb.map(c => Math.round(c)).join(' ');
 		for (let key in sprite) {
 			(rgba => {
 				rgba.r = 顏色.通常.rgb[0] / 255;
@@ -310,6 +312,8 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 zip.file(`${檔案路徑[1]}UIColors.json`, formatJson(ui));
 zip.file(`${檔案路徑[2]}spritecolors.json`, formatJson2(sprite));
 zip.file(`${檔案路徑[2]}org_spritecolors.json`, org_sprite);
+zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
+zip.file(`${檔案路徑[2]}org_50500.bina`, org_bina);
 
 let content = await zip.generateAsync({ type: "base64" });
 下載.onclick = () => startDownload('data:application/zip;base64,' + content, 檔名.value + '.zip');
@@ -326,5 +330,8 @@ let content = await zip.generateAsync({ type: "base64" });
 		判斷與製作('通常');
 		判斷與製作('地圖');
 	}
+	zip.file(`${檔案路徑[1]}UIColors.json`, formatJson(ui));
+	zip.file(`${檔案路徑[2]}spritecolors.json`, formatJson2(sprite));
+	zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
 	content = await zip.generateAsync({ type: "base64" });
 };
