@@ -2,19 +2,18 @@ body {
 	font-family: Consolas, 微軟正黑體;
 }
 
-.bt button {
+.bt button,
+.bt input[type=text],
+.bt input[type=color] {
 	font-family: Consolas, 微軟正黑體;
-	width      : 100px;
+	width      : 60px;
 	height     : 40px;
 	font-size  : 20px;
 }
 
-.bt input[type=text],
-.bt input[type=color] {
-	font-family: Consolas, 微軟正黑體;
-	width      : 100px;
-	height     : 40px;
-	font-size  : 20px;
+.bt input[type=checkbox] {
+	width    : 40px;
+	height   : 40px;
 }
 
 .bt td {

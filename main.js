@@ -65,14 +65,14 @@ let 圖片集 = [
 	]
 ];
 
-function formatJson(json, tab = '') {
+function ui_format(json, tab = '') {
 	if (typeof json == 'object') {
 		if (Array.isArray(json)) {
 			return `[${json.join(', ')}]`;
 		} else {
 			let a = [];
 			for (let key in json) {
-				a.push(`"${key}": ${formatJson(json[key], tab + '  ')}`);
+				a.push(`"${key}": ${ui_format(json[key], tab + '  ')}`);
 			}
 			return `{\r\n  ${tab}${a.join(',\r\n  ' + tab)}\r\n${tab}}`;
 		}
@@ -81,14 +81,14 @@ function formatJson(json, tab = '') {
 	}
 }
 
-function formatJson2(json, tab = '') {
+function sprite_format(json, tab = '') {
 	if ('FloatRGBA' in json) {
-		let f = c => c.toFixed(2);
+		let f = c => c.toFixed(3);
 		return (c => `{ "FloatRGBA": { "r": ${f(c.r)}, "g": ${f(c.g)}, "b": ${f(c.b)}, "a": ${f(c.a)} } }`)(json.FloatRGBA);
 	} else if (typeof json == 'object') {
 		let a = [];
 		for (let key in json) {
-			a.push(`"${key}": ${formatJson2(json[key], tab + '\t')}`);
+			a.push(`"${key}": ${sprite_format(json[key], tab + '\t')}`);
 		}
 		return `{\r\n\t${tab}${a.join(',\r\n\t' + tab)}\r\n${tab}}`;
 	} else {
@@ -140,27 +140,28 @@ function 圖片換色(i1, i2, 顏色) {
 	ctx.putImageData(imgdt, 0, 0);
 }
 
-let 按鈕表 = text2html(`<table class="bt"><tr><td>切換玩家：</td></tr><tr><td>通常顏色：</td></tr><tr><td>地圖顏色：</td></tr><tr></tr><tr></tr></table>`);
+let 按鈕表 = text2html(`<table class="bt"><tr><td>切換玩家：</td></tr><tr><td>通常顏色：</td></tr><tr><td>地圖顏色：</td></tr><tr><td>是否修改：</td></tr><tr></tr><tr></tr></table>`);
 document.body.append(按鈕表);
 let 按鈕trs = 按鈕表.querySelectorAll('tr');
 
 let zip = new JSZip();
 let 重新td = text2html('<td colspan="9"></td>');
-按鈕trs[3].append(重新td);
-let 重新 = text2html(`<button>重新製作</button>`);
+按鈕trs[4].append(重新td);
+let 重新 = text2html(`<button style="width:100px;">重新製作</button>`);
 重新td.append('修改完顏色需要重新製作：', 重新);
 let 下載td = text2html('<td colspan="9"></td>');
-按鈕trs[4].append(下載td);
+按鈕trs[5].append(下載td);
 let 檔名 = text2html(`<input type="text" id="filename" value="Player Color">`);
 下載td.append('檔案名稱：', 檔名);
-let 下載 = text2html(`<button>下載檔案</button>`);
+let 下載 = text2html(`<button style="width:100px;">下載檔案</button>`);
 下載td.append(下載);
 
 let ui = await loadfile('json', `orgfile/${檔案路徑[1]}UIColors.json`);
+let org_ui = await loadfile('json', `orgfile/${檔案路徑[1]}UIColors.json`);
 let sprite = await loadfile('json', `orgfile/${檔案路徑[2]}spritecolors.json`);
-let org_sprite = await loadfile('text', `orgfile/${檔案路徑[2]}spritecolors.json`);
+let org_sprite = await loadfile('json', `orgfile/${檔案路徑[2]}spritecolors.json`);
 let bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.replace(/\r\n/g, '\n').split('\n'));
-let org_bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.replace(/\r\n/g, '\n').replace(/\n/g, '\r\n'));
+let org_bina = await loadfile('text', `orgfile/${檔案路徑[2]}50500.bina`).then(str => str.replace(/\r\n/g, '\n').split('\n'));
 
 let 圖片p = [];
 let 圖片 = [];
@@ -237,6 +238,36 @@ let 製作顏色 = {
 	}
 };
 
+let 復原顏色 = {
+	通常: 顏色 => {
+		zip.remove(`${檔案路徑[0]}playercolor_${顏色.名稱.pal}.pal`);
+		bina[顏色.範圍 - 1] = org_bina[顏色.範圍 - 1];
+		for (let key in sprite) {
+			((rgba, rgba2) => {
+				rgba.r = rgba2.r;
+				rgba.g = rgba2.g;
+				rgba.b = rgba2.b;
+			})(sprite[key][顏色.名稱.玩家].FloatRGBA, org_sprite[key][顏色.名稱.玩家].FloatRGBA);
+		}
+		if (顏色.按鈕 !== false) {
+			for (let [key, 檔案s] of Object.entries(圖片集)) {
+				for (let [n, 檔案] of Object.entries(檔案s)) {
+					zip.remove(`${圖片路徑[key]}${檔案.名稱(顏色.名稱.png)}.png`);
+				}
+			}
+		}
+	},
+	地圖: 顏色 => {
+		for (let key in ui.ColorTables[顏色.名稱.ui]) {
+			let rgba = ui.ColorTables[顏色.名稱.ui][key];
+			let rgba2 = org_ui.ColorTables[顏色.名稱.ui][key];
+			rgba[0] = rgba2[0];
+			rgba[1] = rgba2[1];
+			rgba[2] = rgba2[2];
+		}
+	}
+};
+
 for (let [i, 顏色] of Object.entries(顏色s)) {
 	let tablebig = text2html(`<table class="show"><tr><td></td><td></td><td></td></tr></table>`);
 	document.body.append(tablebig);
@@ -268,6 +299,26 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	};
 	顏色與輸入配置(顏色.通常, 1);
 	顏色與輸入配置(顏色.地圖, 2);
+
+	let 修改td = text2html('<td></td>');
+	按鈕trs[3].append(修改td);
+	let 修改 = text2html('<input type="checkbox">');
+	修改td.append(修改);
+	修改.checked = true;
+	修改.onclick = async () => {
+		if (修改.checked) {
+			製作顏色.通常(顏色);
+			製作顏色.地圖(顏色);
+		} else {
+			復原顏色.通常(顏色);
+			復原顏色.地圖(顏色);
+		}
+		zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
+		zip.file(`${檔案路徑[2]}spritecolors.json`, sprite_format(sprite));
+		zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
+		content = await zip.generateAsync({ type: "base64" });
+	};
+	Object.defineProperty(顏色, '修改', { get: () => 修改.checked });
 
 	let tdbigarr = tablebig.querySelectorAll('td');
 
@@ -309,11 +360,11 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	製作顏色.地圖(顏色);
 }
 
-zip.file(`${檔案路徑[1]}UIColors.json`, formatJson(ui));
-zip.file(`${檔案路徑[2]}spritecolors.json`, formatJson2(sprite));
-zip.file(`${檔案路徑[2]}org_spritecolors.json`, org_sprite);
+zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
+zip.file(`${檔案路徑[2]}spritecolors.json`, sprite_format(sprite));
+zip.file(`${檔案路徑[2]}org_spritecolors.json`, sprite_format(org_sprite));
 zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
-zip.file(`${檔案路徑[2]}org_50500.bina`, org_bina);
+zip.file(`${檔案路徑[2]}org_50500.bina`, org_bina.join('\r\n'));
 
 let content = await zip.generateAsync({ type: "base64" });
 下載.onclick = () => startDownload('data:application/zip;base64,' + content, 檔名.value + '.zip');
@@ -327,11 +378,13 @@ let content = await zip.generateAsync({ type: "base64" });
 				製作顏色[類型](顏色);
 			}
 		};
-		判斷與製作('通常');
-		判斷與製作('地圖');
+		if (顏色.修改) {
+			判斷與製作('通常');
+			判斷與製作('地圖');
+		}
 	}
-	zip.file(`${檔案路徑[1]}UIColors.json`, formatJson(ui));
-	zip.file(`${檔案路徑[2]}spritecolors.json`, formatJson2(sprite));
+	zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
+	zip.file(`${檔案路徑[2]}spritecolors.json`, sprite_format(sprite));
 	zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
 	content = await zip.generateAsync({ type: "base64" });
 };
