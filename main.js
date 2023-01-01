@@ -1,17 +1,17 @@
 import cc from "./colorconvert.js";
 let 顏色s = [
-	{ 中文: "藍色", 玩家名稱: "Player 1", 玩家名稱2: "Ｐ１", 名稱: "blue", 名稱2: "Blue", 名稱png: "blue", 範圍: 24, 通常: { hsl: [240, 1, 0.55] }, 地圖: { hsl: [240, 1, 0.5] } },
-	{ 中文: "紅色", 玩家名稱: "Player 2", 玩家名稱2: "Ｐ２", 名稱: "red", 名稱2: "Red", 名稱png: "red", 範圍: 40, 通常: { hsl: [0, 1, 0.5] }, 地圖: { hsl: [0, 1, 0.5] } },
-	{ 中文: "綠色", 玩家名稱: "Player 3", 玩家名稱2: "Ｐ３", 名稱: "green", 名稱2: "Green", 名稱png: "green", 範圍: 245, 通常: { hsl: [120, 1, 0.4] }, 地圖: { hsl: [120, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ１", 玩家: "Player 1", pal: "blue", ui: "Blue", png: "blue" }, 範圍: 24, 通常: { hsl: [240, 1, 0.55] }, 地圖: { hsl: [240, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ２", 玩家: "Player 2", pal: "red", ui: "Red", png: "red" }, 範圍: 40, 通常: { hsl: [0, 1, 0.5] }, 地圖: { hsl: [0, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ３", 玩家: "Player 3", pal: "green", ui: "Green", png: "green" }, 範圍: 245, 通常: { hsl: [120, 1, 0.4] }, 地圖: { hsl: [120, 1, 0.5] } },
 
-	{ 中文: "黃色", 玩家名稱: "Player 4", 玩家名稱2: "Ｐ４", 名稱: "yellow", 名稱2: "Yellow", 名稱png: "yellow", 範圍: 247, 通常: { hsl: [60, 1, 0.4] }, 地圖: { hsl: [60, 1, 0.5] } },
-	{ 中文: "青色", 玩家名稱: "Player 5", 玩家名稱2: "Ｐ５", 名稱: "teal", 名稱2: "Aqua", 名稱png: "cyan", 範圍: 255, 通常: { hsl: [180, 1, 0.4] }, 地圖: { hsl: [180, 1, 0.5] } },
-	{ 中文: "紫色", 玩家名稱: "Player 6", 玩家名稱2: "Ｐ６", 名稱: "purple", 名稱2: "Purple", 名稱png: "purple", 範圍: 256, 通常: { hsl: [330, 1, 0.75] }, 地圖: { hsl: [330, 1, 0.75] } },
+	{ 名稱: { 中文: "Ｐ４", 玩家: "Player 4", pal: "yellow", ui: "Yellow", png: "yellow" }, 範圍: 247, 通常: { hsl: [60, 1, 0.4] }, 地圖: { hsl: [60, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ５", 玩家: "Player 5", pal: "teal", ui: "Aqua", png: "cyan" }, 範圍: 255, 通常: { hsl: [180, 1, 0.4] }, 地圖: { hsl: [180, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ６", 玩家: "Player 6", pal: "purple", ui: "Purple", png: "purple" }, 範圍: 256, 通常: { hsl: [330, 1, 0.75] }, 地圖: { hsl: [330, 1, 0.75] } },
 
-	{ 中文: "灰色", 玩家名稱: "Player 7", 玩家名稱2: "Ｐ７", 名稱: "grey", 名稱2: "Grey", 名稱png: "grey", 範圍: 17, 通常: { hsl: [240, 0.4, 0.7] }, 地圖: { hsl: [240, 0.2, 0.4] } },
-	{ 中文: "橘色", 玩家名稱: "Player 8", 玩家名稱2: "Ｐ８", 名稱: "orange", 名稱2: "Orange", 名稱png: "orange", 範圍: 89, 通常: { hsl: [30, 1, 0.55] }, 地圖: { hsl: [20, 1, 0.5] } },
+	{ 名稱: { 中文: "Ｐ７", 玩家: "Player 7", pal: "grey", ui: "Grey", png: "grey" }, 範圍: 17, 通常: { hsl: [240, 0.4, 0.7] }, 地圖: { hsl: [240, 0.2, 0.4] } },
+	{ 名稱: { 中文: "Ｐ８", 玩家: "Player 8", pal: "orange", ui: "Orange", png: "orange" }, 範圍: 89, 通常: { hsl: [30, 1, 0.55] }, 地圖: { hsl: [20, 1, 0.5] } },
 
-	{ 中文: "白色", 玩家名稱: "Gaia", 玩家名稱2: "蓋亞", 名稱: "white", 名稱2: "White", 按鈕: false, 通常: { hsl: [240, 1, 0.95] }, 地圖: { hsl: [240, 1, 0.95] } }
+	{ 名稱: { 中文: "蓋亞", 玩家: "Gaia", pal: "white", ui: "White" }, 按鈕: false, 通常: { hsl: [240, 1, 0.95] }, 地圖: { hsl: [240, 1, 0.95] } }
 ];
 let 混色 = [
 	{ rgb: [0, 0, 0] },
@@ -24,7 +24,7 @@ let 混色 = [
 	{ rgb: [128, 96, 64] },
 	{ rgb: [96, 96, 96] }
 ];
-let 混色2 = {
+let 混色ui = {
 	"Text": { x: 6, y: 6 },
 	"TextOutline": { x: 0, y: 15 },
 	"Icons": { x: 0, y: 0 },
@@ -203,14 +203,14 @@ let 製作顏色 = {
 		for (let j = 0; j < 128; j++) {
 			輸出pal += '0 0 0\r\n';
 		}
-		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱}.pal`, 輸出pal);
+		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱.pal}.pal`, 輸出pal);
 		bina[顏色.範圍 - 1] = 顏色.通常.rgb.map(c => Math.round(c)).join(' ');
 		for (let key in sprite) {
 			(rgba => {
 				rgba.r = 顏色.通常.rgb[0] / 255;
 				rgba.g = 顏色.通常.rgb[1] / 255;
 				rgba.b = 顏色.通常.rgb[2] / 255;
-			})(sprite[key][顏色.玩家名稱].FloatRGBA);
+			})(sprite[key][顏色.名稱.玩家].FloatRGBA);
 		}
 
 		if (顏色.按鈕 !== false) {
@@ -218,15 +218,15 @@ let 製作顏色 = {
 				for (let [n, 檔案] of Object.entries(檔案s)) {
 					圖片換色(圖片[key][n], 顏色.圖[key][n], 顏色);
 					let c = 顏色.圖[key][n];
-					zip.file(`${圖片路徑[key]}${檔案.名稱(顏色.名稱png)}.png`, c.toDataURL().replace(/^data:image\/png;base64,/, ''), { base64: true });
+					zip.file(`${圖片路徑[key]}${檔案.名稱(顏色.名稱.png)}.png`, c.toDataURL().replace(/^data:image\/png;base64,/, ''), { base64: true });
 				}
 			}
 		}
 	},
 	地圖: 顏色 => {
-		for (let key in ui.ColorTables[顏色.名稱2]) {
-			let a = 混和(顏色.地圖.rgb, 混色[混色2[key].x].rgb, 混色2[key].y / 15).map(c => Math.round(c));
-			let rgba = ui.ColorTables[顏色.名稱2][key];
+		for (let key in ui.ColorTables[顏色.名稱.ui]) {
+			let a = 混和(顏色.地圖.rgb, 混色[混色ui[key].x].rgb, 混色ui[key].y / 15).map(c => Math.round(c));
+			let rgba = ui.ColorTables[顏色.名稱.ui][key];
 			rgba[0] = a[0];
 			rgba[1] = a[1];
 			rgba[2] = a[2];
@@ -242,7 +242,7 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	document.body.append(tablebig);
 	let 按鈕td = text2html('<td></td>');
 	按鈕trs[0].append(按鈕td);
-	let 按鈕 = text2html(`<button>${顏色.玩家名稱2}</button>`);
+	let 按鈕 = text2html(`<button>${顏色.名稱.中文}</button>`);
 	按鈕.onclick = () => {
 		let ss = document.querySelectorAll('.show');
 		for (let s of ss) {
@@ -250,7 +250,7 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 		}
 		tablebig.style.display = 'inline';
 	};
-	if (顏色.玩家名稱2 == "Ｐ１") 按鈕.click();
+	if (顏色.名稱.中文 == "Ｐ１") 按鈕.click();
 	按鈕td.append(按鈕);
 
 	let 顏色與輸入配置 = (類型, 位置) => {
@@ -288,7 +288,7 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 		顏色.pal表[k] = trarr[k].querySelectorAll('td');
 	}
 	顏色.pal表[8] = [];
-	for (let key in ui.ColorTables[顏色.名稱2]) {
+	for (let key in ui.ColorTables[顏色.名稱.ui]) {
 		let td = text2html(`<td></td>`);
 		trarr[8].append(td);
 		顏色.pal表[8][key] = td;
