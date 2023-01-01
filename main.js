@@ -305,19 +305,6 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	let 修改 = text2html('<input type="checkbox">');
 	修改td.append(修改);
 	修改.checked = true;
-	修改.onclick = async () => {
-		if (修改.checked) {
-			製作顏色.通常(顏色);
-			製作顏色.地圖(顏色);
-		} else {
-			復原顏色.通常(顏色);
-			復原顏色.地圖(顏色);
-		}
-		zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
-		zip.file(`${檔案路徑[2]}spritecolors.json`, sprite_format(sprite));
-		zip.file(`${檔案路徑[2]}50500.bina`, bina.join('\r\n'));
-		content = await zip.generateAsync({ type: "base64" });
-	};
 	Object.defineProperty(顏色, '修改', { get: () => 修改.checked });
 
 	let tdbigarr = tablebig.querySelectorAll('td');
@@ -381,6 +368,9 @@ let content = await zip.generateAsync({ type: "base64" });
 		if (顏色.修改) {
 			判斷與製作('通常');
 			判斷與製作('地圖');
+		} else {
+			復原顏色.通常(顏色);
+			復原顏色.地圖(顏色);
 		}
 	}
 	zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
