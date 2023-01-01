@@ -148,7 +148,7 @@ let zip = new JSZip();
 let 重新td = text2html('<td colspan="9"></td>');
 按鈕trs[4].append(重新td);
 let 重新 = text2html(`<button style="width:100px;">重新製作</button>`);
-重新td.append('修改完顏色需要重新製作：', 重新);
+重新td.append('修改完顏色或是點選是否修改都要重新製作：', 重新);
 let 下載td = text2html('<td colspan="9"></td>');
 按鈕trs[5].append(下載td);
 let 檔名 = text2html(`<input type="text" id="filename" value="Player Color">`);
