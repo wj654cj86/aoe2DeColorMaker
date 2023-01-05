@@ -204,7 +204,33 @@ let 製作顏色 = {
 		for (let j = 0; j < 128; j++) {
 			輸出pal += '0 0 0\r\n';
 		}
-		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱.pal}.pal`, 輸出pal);
+		顏色.輸出pal = 輸出pal;
+		if (顏色.按鈕 !== false) {
+			for (let [key, 檔案s] of Object.entries(圖片集)) {
+				for (let [n, 檔案] of Object.entries(檔案s)) {
+					圖片換色(圖片[key][n], 顏色.圖[key][n], 顏色);
+				}
+			}
+		}
+	},
+	地圖: 顏色 => {
+		顏色.ui = {};
+		for (let key in ui.ColorTables[顏色.名稱.ui]) {
+			let a = 混和(顏色.地圖.rgb, 混色[混色ui[key].x].rgb, 混色ui[key].y / 15).map(c => Math.round(c));
+			顏色.ui[key] = [];
+			顏色.ui[key][0] = a[0];
+			顏色.ui[key][1] = a[1];
+			顏色.ui[key][2] = a[2];
+			let td = 顏色.pal表[8][key];
+			td.style.backgroundColor = `rgb(${a.join(',')})`;
+			td.innerHTML = 顯示顏色數值(a);
+		}
+	}
+};
+
+let 加載顏色 = {
+	通常: 顏色 => {
+		zip.file(`${檔案路徑[0]}playercolor_${顏色.名稱.pal}.pal`, 顏色.輸出pal);
 		bina[顏色.範圍 - 1] = 顏色.通常.rgb.map(c => Math.round(c)).join(' ');
 		for (let key in sprite) {
 			(rgba => {
@@ -213,11 +239,9 @@ let 製作顏色 = {
 				rgba.b = 顏色.通常.rgb[2] / 255;
 			})(sprite[key][顏色.名稱.玩家].FloatRGBA);
 		}
-
 		if (顏色.按鈕 !== false) {
 			for (let [key, 檔案s] of Object.entries(圖片集)) {
 				for (let [n, 檔案] of Object.entries(檔案s)) {
-					圖片換色(圖片[key][n], 顏色.圖[key][n], 顏色);
 					let c = 顏色.圖[key][n];
 					zip.file(`${圖片路徑[key]}${檔案.名稱(顏色.名稱.png)}.png`, c.toDataURL().replace(/^data:image\/png;base64,/, ''), { base64: true });
 				}
@@ -226,14 +250,10 @@ let 製作顏色 = {
 	},
 	地圖: 顏色 => {
 		for (let key in ui.ColorTables[顏色.名稱.ui]) {
-			let a = 混和(顏色.地圖.rgb, 混色[混色ui[key].x].rgb, 混色ui[key].y / 15).map(c => Math.round(c));
 			let rgba = ui.ColorTables[顏色.名稱.ui][key];
-			rgba[0] = a[0];
-			rgba[1] = a[1];
-			rgba[2] = a[2];
-			let td = 顏色.pal表[8][key];
-			td.style.backgroundColor = `rgb(${a.join(',')})`;
-			td.innerHTML = 顯示顏色數值(a);
+			rgba[0] = 顏色.ui[key][0];
+			rgba[1] = 顏色.ui[key][1];
+			rgba[2] = 顏色.ui[key][2];
 		}
 	}
 };
@@ -267,6 +287,7 @@ let 復原顏色 = {
 		}
 	}
 };
+
 
 for (let [i, 顏色] of Object.entries(顏色s)) {
 	let tablebig = text2html(`<table class="show"><tr><td></td><td></td><td></td></tr></table>`);
@@ -345,6 +366,8 @@ for (let [i, 顏色] of Object.entries(顏色s)) {
 	}
 	製作顏色.通常(顏色);
 	製作顏色.地圖(顏色);
+	加載顏色.通常(顏色);
+	加載顏色.地圖(顏色);
 }
 
 zip.file(`${檔案路徑[1]}UIColors.json`, ui_format(ui));
@@ -368,6 +391,8 @@ let content = await zip.generateAsync({ type: "base64" });
 		if (顏色.修改) {
 			判斷與製作('通常');
 			判斷與製作('地圖');
+			加載顏色.通常(顏色);
+			加載顏色.地圖(顏色);
 		} else {
 			復原顏色.通常(顏色);
 			復原顏色.地圖(顏色);

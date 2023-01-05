@@ -16,7 +16,7 @@ let rgb = {
 	hex12: (r, g, b) => hex.hex12(rgb.hex(r, g, b)),
 	hex: (r, g, b) => {
 		let f = c => Math.floor(c * 1).toString(16).padStart(2, '0');
-		return hex.hex('#' + f(r) + f(g) + f(b));
+		return '#' + f(r) + f(g) + f(b);
 	},
 	rgb: (r, g, b) => [r, g, b],
 	cmy: (r, g, b) => [255 - r, 255 - g, 255 - b],
